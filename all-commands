@@ -1,0 +1,378 @@
+ 
+Cria o repositório na raiz do Projeto:
+> git init
+
+Para um projeto especifico:
+
+.git\config
+> git config user.name "Ytallo Pessoa"
+> git config user.email "ytpessoa@gmail.com"
+
+Global:
+> git config --global user.name "Ytallo Pessoa"
+> git config --global user.email "ytpessoa@gmail.com"
+
+
+> git status
+
+Adcionando arquivos para monitoramento do Git:
+> git add .gitignore
+> git add . // todos os arquivos
+
+
+
+Snapchot(Fotografia) do projeto: 
+> git commit -m "mensagem" --> gera um hash id do commit
+
+
+
+Histórico dos commits realizados:
+> git log
+
+	commit 33058297bee26a2b30f49b4353ad0596d0af7c29 (HEAD -> master)
+	Author: Ytallo Pessoa <ytpessoa@gmail.com>
+	Date:   Sun Nov 8 15:52:17 2020 -0300
+
+	    add pagina html
+
+	commit e4aa5ab9a96d6bead17ff1188de267727d5c543e
+	Author: Ytallo Pessoa <ytpessoa@gmail.com>
+	Date:   Sun Nov 8 15:14:17 2020 -0300
+
+	    meu primeiro commit
+
+
+
+Outros recursos de log:
+
+> git log -3 //ultimos 3
+> git log --oneline
+	3305829 (HEAD -> master) add pagina html
+	e4aa5ab meu primeiro commit 
+> git log --oneline -2
+> git log --before="2020-05-10"
+> git log --since="2 days ago"
+> git log --since="1 month ago"
+
+
+Voltando no tempo:
+> git log
+> git checkout hashId
+> git checkout master //volta pro commit princial 
+
+
+Novos comandos:
+
+> git mv programa1.html programa2.htlm          (renomear)
+> git commit -m "renomendo arquivo" 			(Snapshot)
+
+
+> git rm arquivo1.txt							(remover)
+> git commit -m "File arquivo1.txt removido"  	(Snapshot)
+
+
+> arquivo1.txt                                 (modificado...)
+> git add arquivo1.txt							
+> git diff --staged                            (comparando com ultima versao do commit realizado)
+> git commit -m "modificação"                  (Snapshot)
+
+
+> git log --oneline
+	8373hd (HEAD->MASTER) ALTERACOES
+	933JFJ RENOMEANDO ARQUIVO 1
+> git diff 933JFJ  							   	(Diferença entre commit atual 8373hd e commit 933JFJ)
+
+
+
+Desfazendo coisas:
+
+amend => não cria um novo commit, e sim atualiza o ultimo commit realizado
+
+> git commit -m "Adicionando nova limhaaa"			(mensagem errada)
+> git commit --amend -m "Adicionando nova linha"	(mensagem certa)
+
+> git add arquivoNaocommitado.txt
+> git commit --amend -m "Novo arquivo que deveria ter ido no ultimo commit"  (adiciona arquivo no ultimo commit e não em um novo commit)
+
+
+> git add programa6.html
+> git restore --staged programa6.html
+
+
+> git checkout programa6.html // volta programa6.html pro estado do ultimo commit(snapshot)
+
+
+> git reset HEAD --hard 	//volta todos os arquivos estado do ultimo commit(snapshot)
+
+
+> git add .
+> git commit -m "melhorias"
+> git log -2
+> git reset HEAD^ --hard   // volta pro commit anterior
+
+
+
+BRANCH = ramificação do projeto
+Base = ponto onde é criada uma Branch
+
+    base
+----\------------------------------------> branch master do projeto
+     ---------->branch funcionalidadeA
+
+
+
+Merge: junção de branchs
+
+git branch
+git checkout master
+git merge funcionalidadeB   (master <--> funcionalidadeBgi)
+git log
+    commit fbbc73612f0fc6870ce67bfb6721241af39495ab (HEAD -> master, funcionalidadeB)
+    Author: Ytallo Pessoa <ytpessoa@gmail.com>
+    Date:   Sun Nov 8 23:53:56 2020 -0300
+
+        add arquivoB.html
+
+ git branch -d funcionalidadeB
+ 
+
+
+
+
+Rebase: reorganiza os arquivos aplicando os commits
+
+git checkout -b funcionalidadeC
+    Switched to a new branch 'funcionalidadeC'
+git branch
+    * funcionalidadeC
+
+git add arquivoC.html 
+git commit -m "Criacao do arquivo C"
+git checkout master
+git branch
+git rebase funcionalidadeC
+git log
+    commit 65349ce2dcb826b8487fa4dec9d135c3841e5edd (HEAD -> master, funcionalidadeC)
+    Author: Ytallo Pessoa <ytpessoa@gmail.com>
+    Date:   Mon Nov 9 09:23:39 2020 -0300
+
+        Criacao do arquivo C
+
+
+
+
+Clone:
+
+C:\Users\ytallo.brito.pessoa\Desktop\Curso-Git\secao04 --> repositorio Git
+cd colaborador2\
+git clone  C:\Users\ytallo.brito.pessoa\Desktop\Curso-Git\secao04 .
+add newFile.txt
+git add newFile.txt
+git commit -m "Adicionando newFile.txt"
+git status
+	On branch master
+	Your branch is ahead of 'origin/master' by 1 commit.
+	  (use "git push" to publish your local commits)
+
+git push   //mandando para repositório remoto
+
+
+
+
+Fetch e Pull:
+
+Fecth: baixa as atualizações(arquivos) de um repositório remoto, porém não as aplica no repositório local(não faz o merge).
+	   Dessa forma, permite fazer um Rebase de um branch ao invés de fazer um merge.]
+
+
+
+repo1:
+
+add  arquivo2.html
+git add .\arquivo2.html
+git commit -m "Adicionando arquivo 2"
+
+
+repo2(clone de repo1):
+ls 
+	arquivo1.html	
+	arquivoB.html
+	arquivoC.html
+git fetch             //baixa os arquivos em .git/ mas não dá merge no projeto.
+	arquivo1.html	
+	arquivoB.html
+	arquivoC.html
+git rebase
+    arquivo1.html
+    "arquivo2.html"		
+	arquivoB.html
+	arquivoC.html
+
+
+
+Pull: Fetch(baixa os arquivos em .git/ mas não dá merge no projeto) + Rebase(reorganiza os arquivos aplicando os commits)
+
+
+repo1:
+
+add arquivo3.html
+git add .\arquivo3.html
+git commit -m "Adicionando arquivo 3"
+
+
+repo2(clone de repo1):
+ls
+    arquivo1.html
+    arquivo2.html		
+	arquivoB.html
+	arquivoC.html
+
+git pull
+ls
+    arquivo1.html
+    arquivo2.html		
+	"arquivo3.html"
+	arquivoB.html
+	arquivoC.html
+
+
+
+
+
+BARE REPOSITORY: repo remoto centralizador
+
+      REPO BARE
+   /            \
+  /              \
+repo julius   repo maria
+
+
+Repo1(Repositorio BARE):
+mkdir secao04-bare
+git init --bare
+
+
+Repo2(julio):
+mkdir julio\secao04
+git clone C:\Users\ytallo.brito.pessoa\Desktop\Curso-Git\secao04-bare .
+git config user.name "julio"
+git config user.email "julio@gmail.com"
+arquivo1j.html
+git add .\arquivo1j.html
+git commit -m "add arquivo1j"
+git push                      // enviando para Repo1(Repositorio BARE)
+git pull
+
+
+Repo3(Maria):
+mkdir maria\secao04
+git clone C:\Users\ytallo.brito.pessoa\Desktop\Curso-Git\secao04-bare .
+git config user.name "Maria"
+git config user.email "maria@gmail.com"
+arquivo1m.html
+git add .\arquivo1m.html
+git commit -m "add arquivo1m"
+git push                      // enviando para Repo1(Repositorio BARE)
+git pull
+
+
+
+Tags: não gera mais commits, gera uma versão pronta pra uso mesmo que seja uma versão incompleta.
+---usada para definir versões estáveis do projeto;
+---não gera commits, gera uma versão pronta pra uso;
+---estado do software: 1.0, 2.0, 3.0....
+
+
+\julio\secao04> git tag v1.0
+			  > git tag
+			    v1.0
+			  > git push origin v1.0  //origin = repositorio remoto
+
+
+maria\secao04> git pull
+			   From C:\Users\ytallo.brito.pessoa\Desktop\Curso-Git\secao04-bare
+			   * [new tag]         v1.0       -> v1.0
+			
+			> git checkout v1.0
+			  	You are in 'detached HEAD' state.
+			> git status
+			 	 HEAD detached at v1.0
+			> git checkout master
+				Switched to branch 'master'
+			> git status
+				On branch master
+			> git switch -c correcoes-v1.0
+				Switched to a new branch 'correcoes-v1.0'
+			> git branch
+				* correcoes-v1.0   //branch da tag
+				  master
+
+			> notep  arquivo5M.html
+			> git add arquivo5M.html
+			> git commit -m "correcao de bugs arquivo5M"
+			> git branch
+			> git branch
+				* correcoes-v1.0
+				  master
+			> git checkout master
+			> git rebase correcoes-v1.0
+				Successfully rebased and updated refs/heads/master.
+
+				arquivo1j.html
+				arquivo1m.html
+				arquivo2m.html
+				arquivo5M.html
+
+			> git tag v1.1
+			> git tag
+				v1.0
+				v1.1
+			> git push origin v1.1
+
+
+
+Github:
+
+README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/ytpessoa/gittest.git
+git push -u origin main
+
+git remote -v
+origin  https://github.com/ytpessoa/gittest.git (fetch)
+origin  https://github.com/ytpessoa/gittest.git (push)
+
+
+Clone:
+
+> git clone https://github.com/ytpessoa/gittest.git
+> git remote -v
+	origin  https://github.com/ytpessoa/gittest.git (fetch)
+	origin  https://github.com/ytpessoa/gittest.git (push)
+
+
+
+
+Desfazendo alterações e voltando pro último commit:
+
+> git checkout -- .  			  //todos os arquivos
+> git checkout -- arquiv1.txt     
+
+
+
+> git status
+		modified:   teste1.txt
+        modified:   teste2.txt
+> git add .
+> git checkout HEAD -- .   // voltar git add 
+> git status
+	On branch main
+	Your branch is up to date with 'origin/main'.
+
+
+
+
+
