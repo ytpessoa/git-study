@@ -373,5 +373,31 @@ Clone:
 	Your branch is up to date with 'origin/main'.
 
 
+**Resetando/removendo o commit: 
+> git status
+	modified:   arquivoA
+	modified:   arquivoB
+> git add .
+> git commit -m "ateracoracoes"
+> git status
+	On branch main
+	Your branch is up to date with 'origin/main'.
+> git reset HEAD~1 //removeu ultimo commit
+> git status
+	modified:   arquivoA
+	modified:   arquivoB
+
+> git log --oneline
+	e473632 (HEAD -> main, origin/main) arquivoA e arquivoB
+	58fd96a alteracao 3 all-commands
+	c63e60f all-commands
+	e60c165 add all-comands
+> git reset HEAD~1
+> git log --oneline
+	58fd96a (HEAD -> main) alteracao 3 all-commands
+	c63e60f all-commands
+	e60c165 add all-comands
+
+
 
 
